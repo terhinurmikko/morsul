@@ -1,0 +1,2283 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix cidoc: <http://erlangen-crm.org/current/> .
+@prefix frbroo: <http://erlangen-crm.org/efrbroo/> .
+@prefix dc11: <http://purl.org/dc/elements/1.1/> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+<http://www.semanticweb.org/terhi/ontologies/mORSuL>
+ a owl:Ontology .
+
+########## CIDOC CRM as defined in http://www.cidoccrm.org/docs/cidoc_crm_version_5.1.2.pdf #####################
+cidoc:E21_Person
+ a owl:Class ;
+ rdfs:comment """Scope note: This class comprises real persons who live or are assumed to have lived. Legendary figures that may have existed, such as Ulysses and King Arthur, fall into this class if the documentation refers to them as historical figures. In cases where doubt exists as to whether several persons are in fact identical, multiple instances can be created and linked to indicate their relationship. The CRM does not propose a specific form to support reasoning about possible identity.
+Examples:
+- Tut-Ankh-Amun
+- Nelson Mandela"""@en ;
+ rdfs:label "E21 Person"@en ;
+ skos:notation "E21"^^xsd:string ;
+ rdfs:subClassOf <http://erlangen-crm.org/current/E20_Biological_Object>, [
+ a owl:Restriction ;
+ owl:cardinality "1"^^xsd:nonNegativeInteger ;
+ owl:onProperty <http://erlangen-crm.org/current/P98i_was_born>
+ ], <http://erlangen-crm.org/current/E39_Actor>, [
+ a owl:Restriction ;
+ owl:onProperty <http://erlangen-crm.org/current/P152_has_parent> ;
+ owl:minCardinality "2"^^xsd:int ] .
+ 
+cidoc:E24_Physical_Man-Made_Thing
+ a owl:Class ;
+ rdfs:label "E24 Physical Man-Made Thing"@en ;
+ skos:notation "E24"^^xsd:string ;
+ rdfs:comment """Scope note: This class comprises all persistent physical items that are purposely created by human activity. This class comprises man-made objects, such as a swords, and man-made features, such as rock art. No assumptions are made as to the extent of modification required to justify regarding an object as man-made. For example, a "cup and ring" carving on bedrock is regarded as instance of E24 Physical Man-Made Thing.
+ Examples:
+ - the Forth Railway Bridge (E22)
+ - the Channel Tunnel (E25)
+ - the Historical Collection of the Museum Benaki in Athens (E78)"""@en ;
+ rdfs:subClassOf <http://erlangen-crm.org/current/E18_Physical_Thing>, [
+ a owl:Restriction ;
+ owl:onProperty <http://erlangencrm.org/current/P108i_was_produced_by>
+;
+ owl:someValuesFrom <http://erlangen-crm.org/current/E12_Production>
+ ], <http://erlangen-crm.org/current/E71_Man-Made_Thing> .
+ 
+cidoc:E33_Linguistic_Object
+ a owl:Class ;
+ rdfs:comment """Scope note:
+This class comprises identifiable expressions in natural language or languages. Instances of E33 Linguistic Object can be expressed in many ways: e.g. as written texts, recorded speech or sign language. However, the CRM treats instances of E33 Linguistic Object independently from the medium or method by which they are expressed. Expressions in formal languages, such as computer code or mathematical formulae, are not treated as instances of E33 Linguistic Object by the CRM. These should be modelled as instances of E73 Information Object. The text of an instance of E33 Linguistic Object can be documented in a note by P3 has note: E62 String
+Examples:
+- the text of the Ellesmere Chaucer manuscript
+- the lyrics of the song "Blue Suede Shoes"
+- the text of the Jabberwocky by Lewis Carroll
+- the text of "Doktoro Jekyll kaj Sinjoro Hyde" (an Esperanto translation of Dr
+Jekyll and Mr Hyde)"""@en ;
+ skos:notation "E33"^^xsd:string ;
+ rdfs:label "E33 Linguistic Object"@en ;
+ rdfs:subClassOf [
+ a owl:Restriction ;
+ owl:maxCardinality "1"^^xsd:nonNegativeInteger ;
+ owl:onProperty <http://erlangen-crm.org/current/P73i_is_translation_of> ], [
+ a owl:Restriction ;
+ owl:minCardinality "1"^^xsd:nonNegativeInteger ;
+ owl:onProperty <http://erlangen-crm.org/current/P72_has_language> ], <http://erlangen-crm.org/current/E73_Information_Object> .
+
+cidoc:E39_Actor
+ a owl:Class ;
+ rdfs:subClassOf <http://erlangen-crm.org/current/E77_Persistent_Item> ;
+ rdfs:comment """Scope note: This class comprises people, either individually or in groups, who have the potential to perform intentional actions for which they can be held responsible. The CRM does not attempt to model the inadvertent actions of such actors. Individual people should be documented as instances of E21 Person, whereas groups should be documented as instances of either E74 Group or its subclass E40 Legal Body.
+ Examples:
+ - London and Continental Railways (E40)
+ - the Governor of the Bank of England in 1975 (E21)
+ - Sir Ian McKellan (E21)"""@en ;
+ rdfs:label "E39 Actor"@en ;
+ skos:notation "E39"^^xsd:string .
+
+cidoc:E56_Language
+ a owl:Class ;
+ rdfs:comment """Scope note: This class is a specialization of E55 Type and comprises the natural languages in the sense of concepts. This type is used categorically in the model without reference to instances of it, i.e. the Model does not foresee the description of instances of instances of E56 Language, e.g.: "instances of Mandarin Chinese". It is recommended that internationally or nationally agreed codes and terminology are used to denote instances of E56 Language, such as those defined in ISO 639:1988.
+ Example:
+ el [Greek]
+ - en [English]
+ - eo [Esperanto]
+ - es [Spanish]
+ - fr [French]"""@en ;
+ rdfs:subClassOf <http://erlangen-crm.org/current/E55_Type> ;
+ skos:notation "E56"^^xsd:string ;
+ rdfs:label "E56 Language"@en .
+ 
+cidoc:E57_Material
+a owl:Class ;
+rdfs:subClassOf <http://erlangen-crm.org/current/E55_Type> ;
+rdfs:comment """Scope note: This class is a specialization of E55 Type and comprises the concepts of materials. Instances of E57 Material may denote properties of matter before its use, during its use, and as incorporated in an object, such as ultramarine powder, tempera paste, reinforced concrete. Discrete pieces of raw-materials kept in museums, such as bricks, sheets of fabric, pieces of metal, should be modelled individually in the same way as other objects. Discrete used or processed pieces, such as the stones from Nefer Titi's temple, should be modelled as parts (cf. P46 is composed of). This type is used categorically in the model without reference to instances of it, i.e. the Model does not foresee the description of instances of instances of E57 Material, e.g.: "instances of gold". It is recommended that internationally or nationally agreed codes and terminology are used."""@en ;
+ rdfs:label "E57 Material"@en ;
+ skos:notation "E57"^^xsd:string .
+ 
+cidoc:E58_Measurement_Unit
+a owl:Class ;
+rdfs:label "E58 Measurement Unit"@en ;
+rdfs:subClassOf <http://erlangen-crm.org/current/E55_Type>, [
+a owl:Restriction ;
+owl:someValuesFrom <http://erlangencrm.org/current/E54_Dimension> ;
+owl:onProperty <http://erlangen-crm.org/current/P91i_is_unit_of> ] ;
+skos:notation "E58"^^xsd:string ;
+rdfs:comment """Scope note: This class is a specialization of E55 Type and comprises the types of measurement units: feet, inches, centimetres, litres, lumens, etc. This type is used categorically in the model without reference to instances of it, i.e. the Model does not foresee the description of instances of instances of E58 Measurement Unit, e.g.: "instances of cm". System International (SI) units or internationally recognized non-SI terms should be used whenever possible. (ISO 1000:1992). Archaic Measurement Units used in historical records should be preserved.
+ Examples:
+ - cm [centrimetre]
+ - km [kilometre]
+ - m [meter]
+ - m/s [meters per second]
+ - A [Ampere]
+ - GRD [Greek Drachme]
+ - CÂ° [degrees centigrade]"""@en .
+ 
+cidoc:E73_Information_Object
+ a owl:Class ;
+ skos:notation "E73"^^xsd:string ;
+ rdfs:comment """Scope note: This class comprises identifiable immaterial items, such as a poems, jokes, data sets, images, texts, multimedia objects, procedural prescriptions, computer program code, algorithm or mathematical formulae, that have an objectively recognizable structure and are documented as single units. An E73 Information Object does not depend on a specific physical carrier, which can include human memory, and it can exist on one or more carriers simultaneously. Instances of E73 Information Object of a linguistic nature should be declared as instances of the E33 Linguistic Object subclass. Instances of E73 Information Object of a documentary nature should be declared as instances of the E31 Document subclass. Conceptual items such as types and classes are not instances of E73 Information Object, nor are ideas without a reproducible expression.
+Examples:
+- image BM000038850.JPG from the Clayton Herbarium in London
+- E. A. Poe's "The Raven"
+- the movie "The Seven Samurai" by Akira Kurosawa
+- the Maxwell Equations"""@en ;
+ rdfs:subClassOf <http://erlangencrm.org/current/E89_Propositional_Object> ,
+<http://erlangencrm.org/current/E90_Symbolic_Object> ;
+ rdfs:label "E73 Information Object"@en .
+
+cidoc:E84_Information_Carrier
+ a owl:Class ;
+ rdfs:label "E84 Information Carrier"@en ;
+ rdfs:comment """Scope note: This class comprises all instances of E22 Man-Made Object that are explicitly designed to act as persistent physical carriers for instances of E73 Information Object. This allows a relationship to be asserted between an E19 Physical Object and its immaterial information contents. An E84 Information Carrier may or may not contain information, e.g., a diskette. Note that any E18 Physical Thing may carry information, such as an E34 Inscription. However, unless it was specifically designed for this purpose, it is not an Information Carrier. Therefore the property P128 carries (is carried by) applies to E18 Physical Thing in general.
+ Examples:
+ - the Rosetta Stone
+ - my paperpack copy of Crime & Punishment
+ - the computer disk at ICS-FORTH that stores the canonical Definition
+of the CIDOC CRM"""@en ;
+ skos:notation "E84"^^xsd:string ;
+ rdfs:subClassOf <http://erlangen-crm.org/current/E22_ManMade_Object> .
+
+cidoc:E90_Symbolic_Object
+a owl:Class ;
+rdfs:label "E90 Symbolic Object"@en ;
+rdfs:subClassOf <http://erlangencrm.org/current/E28_Conceptual_Object> ,
+<http://erlangencrm.org/current/E72_Legal_Object> ,
+[
+a owl:Restriction ;
+owl:someValuesFrom <http://erlangencrm.org/current/E90_Symbolic_Object> ;
+owl:onProperty <http://erlangencrm.org/current/P106_is_composed_of>
+] ;
+skos:notation "E90"^^xsd:string ;
+rdfs:comment """Scope note: This class comprises identifiable symbols and any aggregation of symbols, such as characters, identifiers, traffic signs, emblems, texts, data sets, images, musical scores, multimedia objects, computer program code or mathematical formulae that have an objectively recognizable structure and that are documented as single units. It includes sets of signs of any nature, which may serve to designate something, or to communicate some propositional content. An instance of E90 Symbolic Object does not depend on a specific physical carrier, which can include human memory, and it can exist on one or more carriers simultaneously. An instance of E90 Symbolic Object may or may not have a specific meaning, for example an arbitrary character string. In some cases, the content of an instance of E90 Symbolic Object may completely be represented by a serialized digital content model, such as a sequence of ASCII-encoded characters, an XML or HTML document, or a TIFF image. The property P3 has note allows for the description of this content model. In order to disambiguate which symbolic level is the carrier of the meaning, the property P3.1 has type can be used to specify the encoding (e.g. "bit", "Latin character", RGB pixel). """@en .
+
+cidoc:P72_has_language
+ a owl:ObjectProperty ;
+ skos:notation "P72"^^xsd:string ;
+ rdfs:domain <http://erlangen-crm.org/current/E33_Linguistic_Object> ;
+ rdfs:comment """Scope note: This property describes the E56 Language of an E33 Linguistic Object. Linguistic Objects are composed in one or more human Languages. This property allows these languages to be documented.
+Examples:
+- the American Declaration of Independence (E33) has language 18th Century
+English (E56)"""@en ;
+ rdfs:range <http://erlangen-crm.org/current/E56_Language> ;
+ owl:inverseOf <http://erlangen-crm.org/current/P72i_is_language_of> ;
+ rdfs:label "P72 has language"@en .
+ 
+cidoc:P73_has_translation
+ a owl:ObjectProperty ;
+ rdfs:label "P73 has translation"@en ;
+ rdfs:range <http://erlangen-crm.org/current/E33_Linguistic_Object> ;
+ rdfs:comment """Scope note: This property describes the source and target of instances of E33 Linguistic Object involved in a translation. When a Linguistic Object is translated into a new language it becomes a new Linguistic Object, despite being conceptually similar to the source object.
+ Examples:
+ - "Les Baigneurs" (E33) has translation "The Bathers" (E33)"""@en ;
+ rdfs:domain <http://erlangen-crm.org/current/E33_Linguistic_Object> ;
+ rdfs:subPropertyOf <http://erlangencrm.org/current/P130_shows_features_of> ;
+ owl:inverseOf <http://erlangen-crm.org/current/P73i_is_translation_of> ;
+ skos:notation "P73"^^xsd:string .
+ 
+cidoc:P106_is_composed_of
+ a owl:ObjectProperty, owl:TransitiveProperty ;
+ rdfs:range <http://erlangen-crm.org/current/E90_Symbolic_Object> ;
+ rdfs:domain <http://erlangen-crm.org/current/E90_Symbolic_Object> ;
+ owl:inverseOf <http://erlangen-crm.org/current/P106i_forms_part_of> ;
+ rdfs:label "P106 is composed of"@en ;
+ skos:notation "P106"^^xsd:string ;
+ rdfs:comment """Scope note: This property associates an instance of E90 Symbolic Object with a part of it that is by itself an instance of E90 Symbolic Object, such as fragments of texts or clippings from an image.
+Examples:
+- this Scope note P106 (E33) is composed of fragments of texts (E33)
+- 'recognizable' P106 (E90) is composed of 'ecognizabl' (E90)"""@en .
+
+cidoc:P106i_forms_part_of
+ a owl:ObjectProperty, owl:TransitiveProperty ;
+ owl:inverseOf <http://erlangencrm.org/current/P106_is_composed_of> ;
+ rdfs:domain <http://erlangen-crm.org/current/E90_Symbolic_Object> ;
+ rdfs:label "P106 forms part of"@en ;
+ rdfs:range <http://erlangen-crm.org/current/E90_Symbolic_Object> ;
+ skos:notation "P106i"^^xsd:string .
+ 
+cidoc:P128_carries
+ a owl:ObjectProperty ;
+ rdfs:comment """Scope note: This property identifies an E90 Symbolic Object carried by an instance of E24 Physical Man-Made Thing. In general this would be an E84 Information Carrier P65 shows visual item (is shown by) is a specialisation of P128 carries (is carried by) which should be used for carrying visual items.
+ Examples:
+ - Matthew's paperback copy of Reach for the Sky (E84) carries the text
+of Reach for the Sky (E73)"""@en ;
+ rdfs:domain <http://erlangen-crm.org/current/E24_Physical_ManMade_Thing> ;
+ owl:inverseOf <http://erlangen-crm.org/current/P128i_is_carried_by> ;
+ skos:notation "P128"^^xsd:string ;
+ rdfs:range <http://erlangen-crm.org/current/E90_Symbolic_Object> ;
+ rdfs:label "P128 carries"@en ;
+ rdfs:subPropertyOf <http://erlangencrm.org/current/P130_shows_features_of> .
+
+##### FRBRoo as defined at http://www.cidoccrm.org/docs/frbr_oo//frbr_docs/FRBRoo_V2.0_draft_2013May.pdf #######
+frbroo:F2_Expression
+ a owl:Class ;
+ rdfs:label "expression"@en ;
+ rdfs:comment """Scope note: This class comprises the intellectual or artistic realisations of works in the form of identifiable immaterial objects, such as texts, poems, jokes, musical or choreographic notations, movement pattern, sound pattern, images, multimedia objects, or any combination of such forms that have objectively recognisable structures. The substance of F2 Expression is signs. Expressions cannot exist without a physical carrier, but do not depend on a specific physical carrier and can exist on one or more carriers simultaneously. Carriers may include human memory. Inasmuch as the form of F2 Expression is an inherent characteristic of the F2 Expression, any change in form (e.g., from alpha-numeric notation to spoken word, a poem created in capitals and rendered in lower case) is a new F2 Expression. Similarly, changes in the intellectual conventions or instruments that are employed to express a work (e.g., translation from one language to another) result in the creation of a new F2 Expression. Thus, if a text is revised or modified, the resulting F2 Expression is considered to be a new F2 Expression. Minor changes, such as corrections of spelling and punctuation, etc., are normally considered variations within the same F2 Expression. On a practical level, the degree to which distinctions are made between variant expressions of a work will depend to some extent on the nature of the F1 Work itself, and on the anticipated needs of users. The genre of the work may provide an indication of which features are essential to the expression. In some cases, aspects of physical form, such as typeface and page layout, are not integral to the intellectual or artistic realisation of the work as such, and therefore are not distinctive criteria for the respective expressions. For another work features such as layout may be essential. For instance, the author or a graphic designer may wrap a poem around an image. An expression of a work may include expressions of other works within it. For instance, an anthology of poems is regarded as a work in its own right that makes use of expressions of the individual poems that have been selected and ordered as part of an intellectual process. This does not make the contents of the aggregated expressions part of this work, but only parts of the resulting expression. If an instance of F2 Expression is of a specific form, such as text, image, etc., it may be simultaneously instantiated in the specific classes representing these forms in CIDOC CRM. Thereby one can make use of the more specific properties of these classes, such as language (which is applicable to linguistic objects only). """@en ;
+ rdfs:subClassOf [
+ a owl:Restriction ;
+ owl:someValuesFrom <http://erlangencrm.org/efrbroo/F28_Expression_Creation> ;
+ owl:onProperty <http://erlangen-crm.org/efrbroo/R17i_was_created_by> ], <http://erlangen-crm.org/current/E73_Information_Object> .
+
+frbroo:F4_Manifestation_Singleton
+ a owl:Class ;
+ rdfs:comment """Scope note: This class comprises physical objects that each carry an instance of F2 Expression, and that were produced as unique objects, with no siblings intended in the course of their production. It should be noted that if all but one copy of a given publication are destroyed, then that copy does not become an instance of F4 Manifestation Singleton, because it was produced together with sibling copies, even though it now happens to be unique. Examples of instances of F4 Manifestation Singleton include manuscripts, preparatory sketches and the final clean draft sent by an author or a composer to a publisher."""@en ;
+ rdfs:label "manifestation singleton"@en ;
+ rdfs:subClassOf [
+ a owl:Restriction ;
+ owl:onProperty <http://erlangencrm.org/efrbroo/R18i_was_created_by> ;
+ owl:maxCardinality "1"^^xsd:nonNegativeInteger
+ ], <http://erlangen-crm.org/current/E24_Physical_Man-Made_Thing> . 
+ 
+frbroo:F10_Person
+ a owl:Class ;
+ rdfs:comment """Scope note: This class comprises real persons who live or are assumed to have lived. [Beginning of scope note for E21 Person in CIDOC CRM version 5.0.1] F10 Person covers the notion of persona. Examples: Margaret Atwood, Hans Christian Andersen, Queen Victoria."""@en ;
+ owl:equivalentClass <http://erlangen-crm.org/current/E21_Person> ;
+ rdfs:label "person"@en .
+ 
+frbroo:F22_Self-Contained_Expression
+ a owl:Class ;
+ rdfs:label "self-contained expression"@en ;
+ rdfs:comment """Scope note: This class comprises the immaterial realisations of individual works at a particular time that are regarded as a complete whole. The quality of wholeness reflects the intention of its creator that this expression should convey the concept of the work. Such a whole can in turn be part of a larger whole. Inherent to the notion of work is the completion of recognisable outcomes of the work. These outcomes, i.e. the Self-Contained Expressions, are regarded as the symbolic equivalents of Individual Works, which form the atoms of a complex work. A Self-Contained Expression may contain expressions or parts of expressions from other work, such as citations or items collected in anthologies. Even though they are incorporated in the Self-Contained Expression, they are not regarded as becoming members of the expressed container work by their inclusion in the expression, but are rather regarded as foreign or referred elements. F22 Self-Contained Expression can be distinguished from F23 Expression Fragment in that an F23 Expression Fragment was not intended by its creator to make sense by itself. Normally creators would characterise an outcome of a work as finished. In other cases, one could recognise an outcome of a work as complete from the elaboration or logical coherence of its content, or if there is any historical knowledge about the creator deliberately or accidentally never finishing (completing) that particular expression. In all those cases, one would regard an expression as self-contained."""@en ;
+ rdfs:subClassOf [
+ a owl:Restriction ;
+ owl:onProperty <http://erlangen-crm.org/efrbroo/R9i_realises> ;
+ owl:cardinality "1"^^xsd:nonNegativeInteger ], [
+ a owl:Restriction ;
+ owl:cardinality "1"^^xsd:nonNegativeInteger ;
+ owl:onProperty <http://erlangen-crm.org/efrbroo/R3i_realises> ], <http://erlangen-crm.org/efrbroo/F2_Expression> .
+ 
+frbroo:F23_Expression_Fragment
+ a owl:Class ;
+ rdfs:label "expression fragment"@en ;
+ rdfs:comment """Scope note: This class comprises parts of Expressions and these parts are not Selfcontained Expressions themselves. The existence of an instance of F23 Expression Fragment can be due to accident, such as loss of material over time, e.g. the only remaining manuscript of an antique text being partially eaten by worms, or due to deliberate isolation, such as excerpts taken from a text by the compiler of a collection of excerpts. An F23 Expression Fragment is only identified with respect to its occurrence in a known or assumed whole. The size of an instance of F23 Expression Fragment ranges from more than 99% of an instance of F22 SelfContained Expression to tiny bits (a few words from a text, one bar from a musical composition, one detail from a still image, a two-second clip from a movie, etc.)."""@en ;
+ rdfs:subClassOf <http://erlangen-crm.org/efrbroo/F2_Expression> .
+ 
+frbroo:F38_Character
+a owl:Class ;
+rdfs:subClassOf <http://erlangencrm.org/current/E28_Conceptual_Object> ;
+rdfs:comment """Scope note: This class comprises fictional or iconographic individuals or groups of individual appearing in works in a way relevant as subjects. Characters may be purely fictitious or based on real persons or groups, but as characters they may exhibit properties that would be
+inconsistent with a real person or group. Rather than merging characters with real persons, they should be described as disjoint, but related entities. Examples: Harry Potter [in J.K. Rowling’s series of novels and the films based on them] Sinuhe the Egyptian [in Mika Waltari’s novel] The Knights of the Round Table [in fiction]"""@en ;
+owl:onProperty <http://erlangen-crm.org/efrbroo/R57_is_based_on>,
+<http://erlangen-crm.org/efrbroo/R58_has_fictional_member> .
+
+frbroo:R17_created
+ a owl:ObjectProperty ;
+ rdfs:subPropertyOf <http://erlangen-crm.org/current/P94_has_created> ;
+ rdfs:range <http://erlangen-crm.org/efrbroo/F2_Expression> ;
+ rdfs:comment """Scope note: This property associates the expression that was first externalised during a particular creation event with that particular creation event."""@en ;
+ rdfs:label "created"@en ;
+ rdfs:domain <http://erlangen-crm.org/efrbroo/F28_Expression_Creation> .
+frbroo:R17i_was_created_by
+a owl:ObjectProperty ;
+rdfs:label ""@en ;
+owl:inverseOf <http://erlangen-crm.org/efrbroo/R17_created> .
+
+frbroo:R18i_was_created_by
+ a owl:ObjectProperty ;
+ rdfs:label "was created by"@en ;
+ owl:inverseOf <http://erlangen-crm.org/efrbroo/R18_created> .
+
+frbroo:R9i_realises
+ a owl:ObjectProperty ;
+ rdfs:label "realises"@en ;
+ owl:inverseOf <http://erlangen-crm.org/efrbroo/R9_is_realised_in> .
+
+frbroo:R3i_realises
+ a owl:ObjectProperty ;
+ owl:inverseOf <http://erlangen-crm.org/efrbroo/R3_is_realised_in> ;
+ rdfs:label "realises"@en .
+
+frbroo:R57_is_based_on
+a owl:ObjectProperty ;
+rdfs:domain frbroo:F38_Character ;
+rdfs:range <http://erlangen-crm.org/current/E39_Actor> ;
+rdfs:comment """Scope note: shortcut of creation P15 influenced (MD). This property associates an instance of F38 Character with an instance of E39
+ ctor that the character is motivated by or is intended to represent. An instance of F38 Character may be based on a combination of features taken from several actors. Examples: Sinuhe (MD)""" .
+ 
+frbroo:R58_has_fictional_member
+rdfs:domain frbroo:F38_Character ;
+rdfs:range frbroo:F38_Character ;
+rdfs:comment """Scope note: out of CRM Scope. This property associates an instance of F38 Character representing a group with another instance of F38 Character that is presented in relevant fiction as a member of the fictional group. Examples: Argonauts (F38) R58 has fictional member Jason (F38)""" .
+
+########## Ontomedia Subontologies as defined at http://www.contextus.net/ontomedia ############
+
+##### Classes from Ontomedia Expression, which contains the basic classes and properties for describing narrative. #####
+<http://contextus.net/ontology/ontomedia/core/expression#Physical-Item>
+ a owl:Class ;
+ rdfs:comment """This class represents a hysical entity which may participate in
+an event within the media"""@en ;
+ rdfs:label "Physical Item" ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Item>,
+<http://contextus.net/ontology/ontomedia/core/expression#Collection> .
+
+<http://contextus.net/ontology/ontomedia/core/expression#Timeline>
+ a owl:Class ;
+ rdfs:comment "This class contains a sequence of occurring events" ;
+ rdfs:label "Timeline" ;
+ rdfs:subClassOf <http://contextus.net/ontology/ontomedia/core/expression#Entity> .
+
+<http://contextus.net/ontology/ontomedia/core/expression#Occurrence>
+ a owl:Class ;
+ rdfs:comment """This class represents a single occurrence of an event, placing
+it at a position in a timeline""" ;
+ rdfs:label "Occurrence" ;
+ rdfs:subClassOf <http://contextus.net/ontology/ontomedia/core/expression#Entity> .
+
+<http://contextus.net/ontology/ontomedia/core/expression#Event>
+ a owl:Class ;
+ rdfs:label "Event" ;
+ rdfs:comment "This property defines an event" ;
+ rdfs:subClassOf <http://contextus.net/ontology/ontomedia/core/expression#Expression> .
+
+<http://contextus.net/ontology/ontomedia/core/expression#Gain>
+ a owl:Class ;
+ rdfs:label "Gain" ;
+ rdfs:subClassOf <http://contextus.net/ontology/ontomedia/core/expression#Event> ;
+ rdfs:comment """This event class results in an overall increase of the entities
+related to the primary subject or subjects of the event""" .
+
+<http://contextus.net/ontology/ontomedia/core/expression#Introduction>
+ a owl:Class ;
+ rdfs:label "Introduction" ;
+ rdfs:comment """This event class denotes the introduction of an entity to the
+media""" ;
+ rdfs:subClassOf <http://contextus.net/ontology/ontomedia/core/expression#Event> .
+
+<http://contextus.net/ontology/ontomedia/core/expression#Loss>
+ a owl:Class ;
+ rdfs:label "Loss" ;
+ rdfs:comment """This event class results in an overall reduction of the entities
+related to the primary subject or subjects of the event""" ;
+ rdfs:subClassOf <http://contextus.net/ontology/ontomedia/core/expression#Event> .
+
+<http://contextus.net/ontology/ontomedia/core/expression#Transformation>
+ a owl:Class ;
+ rdfs:comment """This event class results in no gain or loss of attributes or
+entities, merely alteration""" ;
+ rdfs:label "Transformation" ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Event> .
+
+<http://contextus.net/ontology/ontomedia/core/expression#Action>
+ a owl:Class ;
+ rdfs:comment "This event class describes an action sequence (ie no plot)" ;
+ rdfs:label "Action" ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Event> .
+
+<http://contextus.net/ontology/ontomedia/core/expression#Social>
+ a owl:Class ;
+ rdfs:comment """This event class describes a sequence focusing on social,
+interpersonal and personal emotional elements""" ;
+ rdfs:label "Social" ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Event> .
+
+
+##### Classes from Ontomedia Space, which denotes areas of landscape. Expands on the AKT location ontology. #####
+<http://contextus.net/ontology/ontomedia/core/space#Vessel>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/misc/AKTlocation#EnclosedSpace> ;
+ rdfs:label "Vessel" ;
+ rdfs:comment "This property is to be used to describe a vessel" .
+
+<http://contextus.net/ontology/ontomedia/core/space#Container>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/misc/AKTlocation#EnclosedSpace> ;
+ rdfs:label "Container" ;
+ rdfs:comment "This property is to be used to describe a container" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#Region>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/misc/AKTlocation#Open-Space> ;
+ rdfs:label "Region" ;
+ rdfs:comment "This property is to be used to describe a region" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#World>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/misc/AKTlocation#Open-Space> ;
+ rdfs:label "World" ;
+ rdfs:comment """This property is to be used to describe a world, planet, moon
+or other similar body""" .
+
+<http://contextus.net/ontology/ontomedia/core/space#Urban-Area>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/misc/AKTlocation#Open-Space> ;
+ rdfs:label "Urban Area" ;
+ rdfs:comment "This property is to be used to describe an urban area" .
+
+<http://contextus.net/ontology/ontomedia/core/space#Village>
+ a owl:Class ;
+ rdfs:subClassOf <http://contextus.net/ontology/ontomedia/core/space#Urban-Area> ;
+ rdfs:label "Village" ;
+ rdfs:comment "This property is to be used to describe a village space" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#City>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Urban-Area> ;
+ rdfs:label "City" ;
+ rdfs:comment "This property is to be used to describe a city space" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#Metropolis>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Urban-Area> ;
+ rdfs:label "Metropolis" ;
+ rdfs:comment "This property is to be used to describe a metropolis" .
+
+<http://contextus.net/ontology/ontomedia/core/space#Quay>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Urban-Area> ;
+ rdfs:label "Quay" ;
+ rdfs:comment "This property is to be used to describe a quay" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#Town>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Urban-Area> ;
+ rdfs:label "Town" ;
+ rdfs:comment "This property is to be used to describe a town" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#Port>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#City> ;
+ rdfs:label "Port" ;
+ rdfs:comment "This property is to be used to describe a port city" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#Capital>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Metropolis> ;
+ rdfs:label "Capital" ;
+ rdfs:comment "This property is to be used to describe a Capital city" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#Aquatic>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Region> ;
+ rdfs:label "Aquatic Region" ;
+ rdfs:comment "This property is to be used to describe an aquatic region" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#Arable>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Region> ;
+ rdfs:label "Arable" ;
+ rdfs:comment "This property is to be used to describe an arable region" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#Arboreal>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Region> ;
+ rdfs:label "Arboreal" ;
+ rdfs:comment "This property is to be used to describe an arboreal region" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#Area>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Region> ;
+ rdfs:label "Area" ;
+ rdfs:comment "This property is to be used to describe a specific area" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#Mountain>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Region> ;
+ rdfs:label "Mountain" ;
+ rdfs:comment "This property is to be used to describe a mountain" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#Mountain-Range>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Region> ;
+ rdfs:label "Mountain Range" ;
+ rdfs:comment """This property is to be used to describe a continious
+mountainous region""" .
+
+<http://contextus.net/ontology/ontomedia/core/space#Plains>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Region> ;
+ rdfs:label "Plains" ;
+ rdfs:comment "This property is to be used to describe plains" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#Bay>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Aquatic> ;
+ rdfs:label "Bay" ;
+ rdfs:comment "This property is to be used to describe a bay region" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#Pool>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Aquatic> ;
+ rdfs:label "Pool" ;
+ rdfs:comment "This property is to be used to describe a pool region" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#Lake>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Aquatic> ;
+ rdfs:label "Lake" ;
+ rdfs:comment "This property is to be used to describe a lake region" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#Sea>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Aquatic> ;
+ rdfs:label "Sea" ;
+ rdfs:comment "This property is to be used to describe a sea region" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#Ocean>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Aquatic> ;
+ rdfs:label "Ocean" ;
+ rdfs:comment "This property is to be used to describe an ocean region" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#Stream>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Aquatic> ;
+ rdfs:label "Stream" ;
+ rdfs:comment "This property is to be used to describe a stream region" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#River>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Aquatic> ;
+ rdfs:label "River" ;
+ rdfs:comment "This property is to be used to describe a river region" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#Estuary>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Aquatic> ;
+ rdfs:label "Estuary" ;
+ rdfs:comment "This property is to be used to describe an estuary region" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#Puddle>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Aquatic> ;
+ rdfs:label "Puddle" ;
+ rdfs:comment "This property is to be used to describe a puddle region" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#Pond>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Aquatic> ;
+ rdfs:label "Pond" ;
+ rdfs:comment """This property is to be used to describe a man-made pond
+region""" .
+
+<http://contextus.net/ontology/ontomedia/core/space#Copse>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Arboreal> ;
+ rdfs:label "Copse" ;
+ rdfs:comment "This property is to be used to describe a copse region" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#Forest>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Arboreal> ;
+ rdfs:label "Forest" ;
+ rdfs:comment "This property is to be used to describe a forested region" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#Orchard>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Arboreal> ;
+ rdfs:label "Orchard" ;
+ rdfs:comment "This property is to be used to describe a cultivated orchard region" .
+
+<http://contextus.net/ontology/ontomedia/core/space#Wood>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Arboreal> ;
+ rdfs:label "Wood" ;
+ rdfs:comment "This property is to be used to describe a wooded region" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#Marsh>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Hydrated> ;
+ rdfs:label "Marsh" ;
+ rdfs:comment "This property is to be used to describe a marshy region" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#Swamp>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Hydrated> ;
+ rdfs:label "Swamp" ;
+ rdfs:comment "This property is to be used to describe a swampy region" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#Bog>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Hydrated> ;
+ rdfs:label "Bog" ;
+ rdfs:comment "This property is to be used to describe a boggy region" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#Field>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Arable> ;
+ rdfs:label "Field" ;
+ rdfs:comment "This property is to be used to describe a field" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#Ledge>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Area> ;
+ rdfs:label "Ledge" ;
+ rdfs:comment "This property is to be used to describe a ledge i.e on the mountain wall" .
+
+<http://contextus.net/ontology/ontomedia/core/space#Lot>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Area> ;
+ rdfs:label "Lot" ;
+ rdfs:comment "This property is to be used to describe a lot of land" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#Riverbank>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Bounding> ;
+ rdfs:label "Riverbank" ;
+ rdfs:comment "This property is to be used to describe a riverbank" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#Seashore>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Bounding> ;
+ rdfs:label "Seashore" ;
+ rdfs:comment "This property is to be used to describe a sea shore" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#Volcano>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Mountain> ;
+ rdfs:label "Volcano" ;
+ rdfs:comment "This property is to be used to describe a volcano" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#Surface-Space>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Space> ;
+ rdfs:label "Surface Space" ;
+ rdfs:comment "This property is to be used to describe the surface of a object" .
+ 
+<http://contextus.net/ontology/ontomedia/core/space#Biological-SurfaceSpace>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Surface-Space> ;
+ rdfs:label "Biological Surface Space" ;
+ rdfs:comment "This property is to be used to describe the surface of a biological object" .
+
+##### Classes from Ontomedia Being, classes and properties describing beings, groups of beings and links between beings. #####
+<http://contextus.net/ontology/ontomedia/ext/common/being#Being>
+ a owl:Class ;
+# owl:equivalentClass foaf:Person ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Entity> ;
+ rdfs:comment "This class represents an Entity with a personality" ;
+ rdfs:label "Being" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/being#Character>
+ a owl:Class ;
+ rdfs:subClassOf <http://contextus.net/ontology/ontomedia/ext/common/being#Being> ;
+ rdfs:comment "This class represents an fictionalised contruction of an entity with a personality" ;
+ rdfs:label "Character" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/being#Group>
+ a owl:Class ;
+# owl:equivalentClass foaf:Group ;
+ rdfs:subClassOf <http://contextus.net/ontology/ontomedia/core/expression#Collection>, [
+ a owl:Restriction ;
+ owl:onProperty
+<http://contextus.net/ontology/ontomedia/core/expression#contains> ;
+ owl:allValuesFrom [
+ a owl:Class ;
+ owl:unionOf (
+ <http://contextus.net/ontology/ontomedia/ext/common/being#Being>
+ <http://contextus.net/ontology/ontomedia/ext/common/being#Group>
+ )
+ ]
+ ] ;
+ rdfs:comment "This class represents a group of beings" ;
+ rdfs:label "Group" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/being#Community>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/being#Group> ;
+ rdfs:comment "This class represents a community" ;
+ rdfs:label "Community" .
+
+<http://contextus.net/ontology/ontomedia/ext/common/being#Organisation>
+ a owl:Class ;
+# owl:equivalentClass foaf:Organization ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/being#Group> ;
+ rdfs:comment "This class represents an organisation" ;
+ rdfs:label "Organisation" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/being#Household>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/being#Community> ;
+ rdfs:comment "This class represents a household" ;
+ rdfs:label "Household" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/being#BondedGroup>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/being#Community> ;
+ rdfs:comment "This class represents a bonded group" ;
+ rdfs:label "Bonded Group" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/being#Partnership>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/being#BondedGroup> ;
+ rdfs:comment "This class represents a partnership" ;
+ rdfs:label "Partnership" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/being#Bond>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Abstract-Item> ;
+ rdfs:comment "This class represents a bond that exists between beings or groups of beings" ;
+ rdfs:label "Bond" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/being#Pledge>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/being#Bond> ;
+ rdfs:comment "This class represents a promise that exists between beings or groups of beings" ;
+ rdfs:label "Pledge" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/being#Deal>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/being#Bond> ;
+ rdfs:comment "This class represents a deal that exists between beings or groups of beings" ;
+ rdfs:label "Deal" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/being#Enmity>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/being#Bond> ;
+ rdfs:comment "This class represents an emnity that exists between beings or groups of beings" ;
+ rdfs:label "Enmity" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/being#Alliance>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/being#Bond> ;
+ rdfs:comment "This class represents an alliance that exists between beings or groups of beings" ;
+ rdfs:label "Alliance" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/being#Family>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/being#Bond> ;
+ rdfs:comment "This class represents a family bond that exists between beings or groups of beings" ;
+ rdfs:label "Family Bond" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/being#Possession>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/being#Bond> ;
+ rdfs:comment "This class represents a the bond between two entities where one claims ownership of the other" ;
+ rdfs:label "Possession" .
+ 
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/being#Friendship>
+ a owl:Class ;
+rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/being#Alliance> ;
+ rdfs:comment "This class represents an friendship that exists between beingsor groups of beings" ;
+ rdfs:label "Friendship" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/being#Blood>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/being#Family> ;
+ rdfs:comment "This class represents a blood bond that exists between beings or groups of beings" ;
+ rdfs:label "Blood Family Bond" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/being#Adopted>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/being#Family> ;
+ rdfs:comment "This class represents an adopted bond that exists between beings or groups of beings" ;
+ rdfs:label "Adopted Family Bond" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/being#Foster>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/being#Family> ;
+ rdfs:comment "This class represents a foster bond that exists between beings or groups of beings" ;
+ rdfs:label "Foster Family Bond" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/being#Step>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/being#Family> ;
+ rdfs:comment "This class represents a step bond that exists between beings or groups of beings" ;
+ rdfs:label "Step Family Bond" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/being#Profession>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Abstract-Item> ;
+ rdfs:comment "This class represents a profession" ;
+ rdfs:label "Profession" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/being#MentalIllness>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Abstract-Item> ;
+ rdfs:comment "This class represents a mental illness" ;
+ rdfs:label "Mental Illness" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/being#PhysicalIllness>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Abstract-Item> ;
+ rdfs:comment "This class represents a physical illness" ;
+ rdfs:label "Physical Illness" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/being#PhysicalInjury>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Abstract-Item> ;
+ rdfs:comment "This class represents a physical injury" ;
+ rdfs:label "Physical Injury" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/being#EmotionalCrisis>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Abstract-Item> ;
+ rdfs:comment "This class represents a emotional crisis" ;
+ rdfs:label "Emotional Crisis" .
+
+<http://contextus.net/ontology/ontomedia/ext/common/being#place_of_citizenship>
+ a owl:ObjectProperty ;
+ rdfs:label "Place of Citizenship" ;
+ rdfs:comment "This property specifies the place that the being is a citizan of" ;
+ rdfs:domain <http://contextus.net/ontology/ontomedia/ext/common/being#Being> ;
+ rdfs:range <http://contextus.net/ontology/ontomedia/core/space#Space> .
+
+<http://contextus.net/ontology/ontomedia/ext/common/being#wears>
+ a owl:ObjectProperty ;
+ rdfs:label "Wears" ;
+ rdfs:comment "This property specifies an item worn by the being" ;
+ rdfs:domain <http://contextus.net/ontology/ontomedia/core/expression#Physical-Item> ;
+ rdfs:range <http://contextus.net/ontology/ontomedia/ext/detail/know#Alphabet> .
+
+<http://contextus.net/ontology/ontomedia/ext/common/being#wears-type>
+ a owl:ObjectProperty ;
+ rdfs:label "Wears Type" ;
+ rdfs:comment "This property specifies a class of items worn by the being" ;
+ rdfs:domain <http://contextus.net/ontology/ontomedia/ext/common/being#Being> ;
+ rdfs:range [
+ a owl:Restriction ;
+ owl:onProperty rdf:hasParent ;
+ owl:allValuesFrom [
+ a owl:Class ;
+ owl:unionOf (
+<http://contextus.net/ontology/ontomedia/core/expression#Physical-Item> )
+ ]
+ ] .
+ 
+
+<http://contextus.net/ontology/ontomedia/core/expression#Physical-Item> a
+owl:Class .
+
+<http://contextus.net/ontology/ontomedia/ext/common/being#is-relationof>
+ a owl:ObjectProperty ;
+ rdfs:label "Is Relation Of" ;
+ rdfs:comment "This property specifies that the Being is the child of the
+specified Being" ;
+ rdfs:domain <http://contextus.net/ontology/ontomedia/ext/common/being#Family> ;
+ rdfs:range <http://contextus.net/ontology/ontomedia/ext/common/being#Being> ;
+ owl:inverseOf <http://contextus.net/ontology/ontomedia/ext/common/being#is-relationof> .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/being#is-child-of>
+ a owl:ObjectProperty ;
+ rdfs:label "Is Child Of" ;
+ rdfs:comment "This property specifies that the being is the child of the specified being" ;
+ rdfs:subPropertyOf <http://contextus.net/ontology/ontomedia/ext/common/being#is-relationof> ;
+ rdfs:domain <http://contextus.net/ontology/ontomedia/ext/common/being#Family> ;
+ rdfs:range <http://contextus.net/ontology/ontomedia/ext/common/being#Being> ;
+ owl:inverseOf <http://contextus.net/ontology/ontomedia/ext/common/being#is-parentof> .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/being#is-parentof>
+ a owl:ObjectProperty ;
+ rdfs:label "Is Parent Of" ;
+ rdfs:comment "This property specifies that the being is the parent of the specified being" ;
+ rdfs:subPropertyOf <http://contextus.net/ontology/ontomedia/ext/common/being#is-relationof> ;
+ rdfs:domain <http://contextus.net/ontology/ontomedia/ext/common/being#Family> ;
+ rdfs:range <http://contextus.net/ontology/ontomedia/ext/common/being#Being> ;
+ owl:inverseOf <http://contextus.net/ontology/ontomedia/ext/common/being#is-child-of> .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/being#sibling-of>
+ a owl:ObjectProperty ;
+ rdfs:label "Sibling Of" ;
+ rdfs:comment "This property specifies that the being is a sibling of the specified being" ;
+ rdfs:subPropertyOf <http://contextus.net/ontology/ontomedia/ext/common/being#is-relationof> ;
+ rdfs:domain <http://contextus.net/ontology/ontomedia/ext/common/being#Family> ;
+ rdfs:range <http://contextus.net/ontology/ontomedia/ext/common/being#Being> ;
+ owl:inverseOf <http://contextus.net/ontology/ontomedia/ext/common/being#sibling-of> .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/being#cured>
+ a owl:ObjectProperty ;
+ rdfs:label "Cured" ;
+ rdfs:comment "This property specifies a cure event" ;
+ rdfs:domain [
+ a owl:Class ;
+ owl:unionOf (
+ <http://contextus.net/ontology/ontomedia/ext/common/being#PhysicalInjury>
+ <http://contextus.net/ontology/ontomedia/ext/common/being#PhysicalIllness>
+ <http://contextus.net/ontology/ontomedia/ext/common/being#MentalIllness>
+ )
+ ] ;
+ rdfs:range
+<http://contextus.net/ontology/ontomedia/core/expression#Event> .
+
+<http://contextus.net/ontology/ontomedia/ext/common/being#havebonded-to>
+ a owl:ObjectProperty ;
+ rdfs:label "Have Bonded To" ;
+ rdfs:comment "This property represents a pledge that the entity has a bond with the named entity" ;
+ rdfs:domain
+<http://contextus.net/ontology/ontomedia/ext/common/being#Pledge> ;
+ rdfs:range [
+ a owl:Class ;
+ owl:unionOf (
+ <http://contextus.net/ontology/ontomedia/ext/common/being#Group>
+ <http://contextus.net/ontology/ontomedia/ext/detail/know#Culture>
+<http://contextus.net/ontology/ontomedia/ext/common/being#Profession>
+ <http://contextus.net/ontology/ontomedia/ext/common/being#Being>
+ )
+ ] .
+ 
+##### Classes from Ontomedia Trait, Classes and properties describing traits which entities may have such as descriptive properties, motivations, current physical, mental or psychological state and other information related to an entities profile.. #####
+
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Being-Trait>
+ a owl:Class ;
+ rdfs:label "Character Trait" ;
+ rdfs:comment "This class represents the characteristics that describe a Character Entity" ;
+ rdfs:subClassOf <http://contextus.net/ontology/ontomedia/ext/common/trait#Trait> .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Age>
+ a owl:Class ;
+ rdfs:comment "This class represents the age of an Entity" ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Being-Trait>,
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Trait> ;
+ rdfs:label "Age" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Description>
+ a owl:Class ;
+ rdfs:label "Description" ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Being-Trait>,
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Trait> ;
+ rdfs:comment "This class represents the physical description of an Entity" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Employment>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Being-Trait>,
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Trait> ;
+ rdfs:label "Employment" ;
+ rdfs:comment "This class represents the employment or other type of job undertaken by an Entity" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Gender>
+ a owl:Class ;
+ rdfs:comment "This class represents the gender of an Entity" ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Being-Trait> ;
+ rdfs:label "Gender" ;
+ owl:equivalentClass <http://www.aktors.org/ontology/portal#Gender> .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Knowledge>
+ a owl:Class ;
+ rdfs:label "Knowledge" ;
+ rdfs:comment "This class represents things known by an Entity" ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Being-Trait>,
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Trait> .
+
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Name>
+ a owl:Class ;
+ rdfs:label "Name" ;
+ rdfs:comment "This class represents the name or equivilent designation of an Entity" ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Being-Trait>,
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Trait> .
+
+<http://contextus.net/ontology/ontomedia/ext/common/trait#State-OfBeing>
+ a owl:Class ;
+ rdfs:comment "This class represents the state of being of an Entity" ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Being-Trait>,
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Trait> ;
+ rdfs:label "State of Being" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/trait#State-OfConsciousness>
+ a owl:Class ;
+ rdfs:label "State of Consciousness" ;
+ rdfs:comment "This class represents the state of consciousness of an Entity" ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Being-Trait>,
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Trait> .
+
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Build>
+ a owl:Class ;
+ rdfs:label "Build" ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Description> ;
+ rdfs:comment "This class represents a physical build type" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Colour>
+ a owl:Class ;
+ rdfs:label "Colour" ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Description> ;
+ rdfs:comment "This class represents colours" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Distinguishing-Mark>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Description> ;
+ rdfs:comment "This class represents a distinguishing mark" ;
+ rdfs:label "Distinguishing Mark" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Material>
+ a owl:Class ;
+ rdfs:comment "This class represents a type of material" ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Description> ;
+ rdfs:label "Material" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Dimension>
+ a owl:Class ;
+ rdfs:comment "This class represents a dimension" ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Description> ;
+ rdfs:label "Dimension" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Male>
+ a owl:Class ;
+ rdfs:label "Male" ;
+ rdfs:comment "This class represents the male gender" ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Gender> .
+
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Neuter>
+ a owl:Class ;
+ rdfs:label "Neuter" ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Gender> ;
+ rdfs:comment "This class represents the neuter gender" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Female>
+ a owl:Class ;
+ rdfs:comment "This class represents the female gender" ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Gender> ;
+ rdfs:label "Female" .
+
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Adult>
+ a owl:Class ; rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Stage-OfLife> ;
+ rdfs:comment "This class represents the adult stage of life of an entity" ;
+ rdfs:label "Adult" .
+
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Old>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Stage-OfLife> ;
+ rdfs:comment "This class represents the old stage of life of an entity" ;
+ rdfs:label "Old" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Young>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Stage-OfLife> ;
+ rdfs:comment "This class represents the young stage of life of an entity" ;
+ rdfs:label "Young" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Virgin>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Stage-OfLife> ;
+ rdfs:comment "This class represents the pre-sexually active stage of life of an entity" ;
+ rdfs:label "Virgin" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Child>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Young> ;
+ rdfs:comment "This class represents the child stage of life of an entity" ;
+ rdfs:label "Child" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Teenager>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Young> ;
+ rdfs:comment "This class represents the teenage stage of life of an entity" ;
+ rdfs:label "Teenage" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Young-Adult>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Young> ;
+ rdfs:comment "This class represents the young adult stage of life of an entity"
+;
+ rdfs:label "Young Adult" .
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Unconscious>
+ a owl:Class ;
+ rdfs:label "Unconscious" ;
+ rdfs:comment "This class describes an Entity which is unconscious" ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/trait#State-OfConsciousness>
+;
+ owl:disjointWith [
+ a owl:Class ;
+ owl:unionOf (
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Conscious>
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Unresponsive>
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Asleep>
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Instinctual>
+ )
+ ] .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Conscious>
+ a owl:Class ;
+ owl:disjointWith [
+ a owl:Class ;
+ owl:unionOf (
+
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Unresponsive>
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Asleep>
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Instinctual>
+ )
+ ] ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/trait#State-OfConsciousness>
+;
+ rdfs:comment "This class describes an Entity which is conscious" ;
+ rdfs:label "Conscious" .
+
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Unresponsive>
+ a owl:Class ;
+ owl:disjointWith
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Instinctual>,
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Conscious> ;
+ rdfs:label "Unresponsive" ;
+ rdfs:comment "This class describes an Entity which is totally unresponsive to external stimuli i.e. coma" ;
+ rdfs:subClassOf <http://contextus.net/ontology/ontomedia/ext/common/trait#State-OfConsciousness> .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Asleep>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/trait#State-OfConsciousness> ;
+ rdfs:label "Asleep" ;
+ rdfs:comment "This class describes an Entity which is asleep" ;
+ owl:disjointWith [
+ a owl:Class ;
+ owl:unionOf (
+
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Conscious>
+<http://contextus.net/ontology/ontomedia/ext/common/trait#Unresponsive>
+ <http://contextus.net/ontology/ontomedia/ext/common/trait#Instinctual>
+ )
+ ] .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/trait#has-trait>
+ a owl:ObjectProperty ;
+ rdfs:range <http://contextus.net/ontology/ontomedia/ext/common/trait#Trait> ;
+ rdfs:comment "This property specifies a general trait which belongs to an Entity" ;
+ rdfs:label "Has Trait" ;
+ rdfs:domain
+<http://contextus.net/ontology/ontomedia/core/expression#Entity> .
+
+##### Classes from Ontomedia Physical Items #####
+
+<http://contextus.net/ontology/ontomedia/ext/common/physitem#Attire>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Physical-Item> ;
+ rdfs:comment "This class represents an item of clothing" ;
+ rdfs:label "Attire" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/physitem#BodyPart>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Physical-Item> ;
+ rdfs:comment "This class represents a part of a biological organism" ;
+ rdfs:label "Body Part" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/physitem#Building>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Physical-Item> ;
+ owl:equivalentClass
+<http://contextus.net/ontology/ontomedia/location#Building> ;
+ rdfs:comment "This class represents a building" ;
+ rdfs:label "Building" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/physitem#Consumables>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Physical-Item> ;
+ rdfs:comment "This class represents physical objects which are intended to be eaten or drunk" ;
+ rdfs:label "Consumables" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/physitem#Craft>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Physical-Item> ;
+ owl:equivalentClass
+<http://contextus.net/ontology/ontomedia/core/space#Vessel> ;
+ rdfs:comment "This class represents physical objects which can be used for transportantion" ;
+ rdfs:label "Craft" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/physitem#Furniture>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Physical-Item> ;
+ rdfs:comment "This class represents physical objects which is an item of furniture" ;
+ rdfs:label "Furniture" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/physitem#Geo>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Physical-Item> ;
+ rdfs:comment "This class represents physical objects which is related to the earth/ground/landscape" ;
+ rdfs:label "Geo-" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/physitem#Monument>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Physical-Item> ;
+ rdfs:comment "This class represents physical objects which is a monument" ;
+ rdfs:label "Monument-" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/physitem#Vegetation>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Physical-Item> ;
+ rdfs:comment "This class represents physical object of vegetation" ;
+ rdfs:label "Vegetation" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/physitem#Weapon>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Physical-Item> ;
+ rdfs:comment "This class represents a weapon" ;
+ rdfs:label "Weapon" .
+
+<http://contextus.net/ontology/ontomedia/ext/common/physitem#usually_worn_for>
+ a owl:ObjectProperty ;
+ rdfs:domain <http://contextus.net/ontology/ontomedia/ext/common/physitem#Attire> ;
+ rdfs:range <http://contextus.net/ontology/ontomedia/core/expression#Event> .
+
+<http://contextus.net/ontology/ontomedia/ext/common/physitem#usually_worn_by>
+ a owl:ObjectProperty ;
+ rdfs:domain
+<http://contextus.net/ontology/ontomedia/ext/common/physitem#Attire> ;
+ rdfs:range [
+ a owl:Class ;
+ owl:unionOf (
+ <http://contextus.net/ontology/ontomedia/ext/common/being#Group>
+ <http://contextus.net/ontology/ontomedia/ext/common/being#Being>
+ )
+ ] .
+ 
+##### Classes from Ontomedia Zoology #####
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Amphibian>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/critters#Bestial> ;
+ rdfs:comment "This class represents an amphibian species" ;
+ rdfs:label "Amphibian" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Anthropod>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/critters#Bestial> ;
+ rdfs:comment "This class represents species with an anthropod form" ;
+ rdfs:label "Arthropod" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Avian>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/critters#Bestial> ;
+ rdfs:comment "This class represents species with an avian form" ;
+ rdfs:label "Avian" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Bovidine>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/critters#Bestial> ;
+ rdfs:comment "This class represents species with a bovidine form" ;
+ rdfs:label "Bovidine" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Canine>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/critters#Bestial> ;
+ rdfs:comment "This class represents species with a canine form" ;
+ rdfs:label "Canine" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Ceridine>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/critters#Bestial> ;
+ rdfs:comment "This class represents species with a ceridine form" ;
+ rdfs:label "Ceridine" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Equine>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/critters#Bestial> ;
+ owl:equivalentClass
+<http://contextus.net/ontology/ontomedia/ext/common/critters#Equine> ;
+ rdfs:comment "This class represents species with an equine form" ;
+ rdfs:label "Equine" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Feliformoid>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/critters#Bestial> ;
+ rdfs:comment "This class represents species with a feliformoid form" ;
+ rdfs:label "Feliformoid" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Hippopotamus>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/critters#Bestial> ;
+ rdfs:comment "This class represents species with a hippopotamus form" ;
+ rdfs:label "Hippopotamus" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Leporoid>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/critters#Bestial> ;
+ rdfs:comment "This class represents species with a leporoid form" ;
+ rdfs:label "Leporoid" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Marine>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/critters#Bestial> ;
+ rdfs:comment "This class represents species with a marine form" ;
+ rdfs:label "Marine" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Mollusk>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/critters#Bestial> ;
+ rdfs:comment "This class represents species with a mollusk form" ;
+ rdfs:label "Mollusk" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Musteloid>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/critters#Bestial> ;
+ rdfs:comment "This class represents species with a musteloid form" ;
+ rdfs:label "Museloid" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Primate>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/critters#Bestial> ;
+ rdfs:comment "This class represents species with an primate form" ;
+ rdfs:label "Primate" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Reptilian>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/critters#Bestial> ;
+ rdfs:comment "This class represents species with a reptilian form" ;
+ rdfs:label "Reptilian" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Suinine>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/critters#Bestial> ;
+ rdfs:comment "This class represents species with a suinine form" ;
+ rdfs:label "Suinine" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Ursine>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/critters#Bestial> ;
+ rdfs:comment "This class represents species with an ursine form" ;
+ rdfs:label "Ursine" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Frog>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Amphibian> ;
+ rdfs:comment "This class represents species with a frog form" ;
+ rdfs:label "Frog" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Toad>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Amphibian> ;
+ rdfs:comment "This class represents species with a toad form" ;
+ rdfs:label "Toad" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Arachnoid>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Arthropod> ;
+ rdfs:comment "This class represents species with an arachnoid form" ;
+ rdfs:label "Arachnoid" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Insectoid>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Arthropod> ;
+ rdfs:comment "This class represents species with a insectoid form" ;
+ rdfs:label "Insectoid" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Spider>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Arachnoid> ;
+ rdfs:comment "This class represents species with a spider form" ;
+ rdfs:label "Spider" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Ant>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Insectoid> ;
+ rdfs:comment "This class represents species with an ant form" ;
+ rdfs:label "Ant" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Butterfly>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Insectoid> ;
+ rdfs:comment "This class represents species with a butterfly form" ;
+ rdfs:label "Butterfly" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Grasshopper>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Insectoid> ;
+ rdfs:comment "This class represents species with a grasshopper form" ;
+ rdfs:label "Grasshopper" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Mayfly>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Insectoid> ;
+ rdfs:comment "This class represents species with a mayfly form" ;
+ rdfs:label "Mayfly" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Mosquito>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Insectoid> ;
+ rdfs:comment "This class represents species with a mosquito form" ;
+ rdfs:label "Mosquito" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Bat>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Avian> ;
+ rdfs:comment "This class represents species with a bat form" ;
+ rdfs:label "Bat" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Chicken>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Avian> ;
+ rdfs:comment "This class represents species with a chicken form" ;
+ rdfs:label "Chicken" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Parrot>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Avian> ;
+ rdfs:comment "This class represents species with a parrot form" ;
+ rdfs:label "Parrot" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Raptor>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Avian> ;
+ rdfs:comment "This class represents species with a raptor form" ;
+ rdfs:label "Raptor" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Owl>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Raptor> ;
+ rdfs:comment "This class represents species with a owl form" ;
+ rdfs:label "Owl" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Vulture>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Raptor> ;
+ rdfs:comment "This class represents species with a vulture form" ;
+ rdfs:label "Vulture" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Bovine>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Bovidine> ;
+ rdfs:comment "This class represents species with a bovine form" ;
+ rdfs:label "Bovine" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Caprinine>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Bovidine> ;
+ rdfs:comment "This class represents species with a caprinine form" ;
+ rdfs:label "Caprinine" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Buffalo>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Bovine> ;
+ rdfs:comment "This class represents species with a buffalo form" ;
+ rdfs:label "Buffalo" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Cow>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Bovine> ;
+ rdfs:comment "This class represents species with a cow form" ;
+ rdfs:label "Cow" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Ox>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Bovine> ;
+ rdfs:comment "This class represents species with a ox form" ;
+ rdfs:label "Ox" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Goat>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Caprinine> ;
+ rdfs:comment "This class represents species with a goat form" ;
+ rdfs:label "Goat" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Sheep>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Caprinine> ;
+ rdfs:comment "This class represents species with a sheep form" ;
+ rdfs:label "Sheep" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Dog>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Canine> ;
+ rdfs:comment "This class represents species with a dog form" ;
+ rdfs:label "Dog" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Deer>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Ceridine> ;
+ rdfs:comment "This class represents species with a deer form" ;
+ rdfs:label "Deer" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Roebuck>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Deer> ;
+ rdfs:comment "This class represents species with a roebuck form" ;
+ rdfs:label "Roebuck" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Ass>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Equine> ;
+ rdfs:comment "This class represents species with an ass form" ;
+ rdfs:label "Ass" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Feline>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Feliformoid> ;
+ rdfs:comment "This class represents species with a feline form" ;
+ rdfs:label "Feline" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Hyena>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Feliformoid> ;
+ rdfs:comment "This class represents species with a hyena form" ;
+ rdfs:label "Hyena" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Lion>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Feline> ;
+ rdfs:comment "This class represents species with a lion form" ;
+ rdfs:label "Lion" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Tiger>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Feline> ;
+ rdfs:comment "This class represents species with a tiger form" ;
+ rdfs:label "Tiger" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Hare>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Leporoid> ;
+ rdfs:comment "This class represents species with a hare form" ;
+ rdfs:label "Hare" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Cephalopod>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Marine>,
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Mollusk> ;
+ rdfs:comment "This class represents species with a cephalopod form" ;
+ rdfs:label "Cephalopod" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Cetecea>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Marine> ;
+ rdfs:comment "This class represents species with a cetecea form" ;
+ rdfs:label "Cetecea" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Cnidaria>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Marine> ;
+ rdfs:comment "This class represents species with a cnidaria form" ;
+ rdfs:label "Cnidaria" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Echinoderms>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Marine> ;
+ rdfs:comment "This class represents species with a echinoderms form" ;
+ rdfs:label "Echinoderms" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Oyster>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Marine>,
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Mollusk> ;
+ rdfs:comment "This class represents species with a oyster form" ;
+ rdfs:label "Oyster" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Pinnipeds>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Marine> ;
+ rdfs:comment "This class represents species with a pinnipeds form" ;
+ rdfs:label "Pinnipeds" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Piscine>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Marine> ;
+ rdfs:comment "This class represents species with a piscine form" ;
+ rdfs:label "Piscine" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Anthozoa>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Cnidaria> ;
+ rdfs:comment "This class represents species with a anthozoa form" ;
+ rdfs:label "Anthozoa" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Seal>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Pinnipeds> ;
+ rdfs:comment "This class represents species with a seal form" ;
+ rdfs:label "Seal" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Fish>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Piscine> ;
+ rdfs:comment "This class represents species with a fish form" ;
+ rdfs:label "Fish" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Sea-Horse>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Sea-Horse> ;
+ rdfs:comment "This class represents species with a sea-horse form" ;
+ rdfs:label "Sea-Horse" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Gastropod>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Mollusk> ;
+ rdfs:comment "This class represents species with a gastropod form" ;
+ rdfs:label "Gastropod" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Slug>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Gastropod> ;
+ rdfs:comment "This class represents species with a slug form" ;
+ rdfs:label "Slug" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Weasel>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Musteloid> ;
+ rdfs:comment "This class represents species with a weasel form" ;
+ rdfs:label "Weasel" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Ape>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Primate> ;
+ rdfs:comment "This class represents species with an ape form" ;
+ rdfs:label "Ape" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Monkey>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Primate> ;
+ rdfs:comment "This class represents species with a monkey form" ;
+ rdfs:label "Monkey" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Crocodilian>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Reptilian> ;
+ rdfs:comment "This class represents species with a crocodilian form" ;
+ rdfs:label "Crocodilian" .
+
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Lizard>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Reptilian> ;
+ rdfs:comment "This class represents species with a lizard form" ;
+ rdfs:label "Lizard" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Serpentine>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Reptilian> ;
+ owl:equivalentClass
+<http://contextus.net/ontology/ontomedia/ext/common/critters#Serpentine> ;
+ rdfs:comment "This class represents species with a serpentine form" ;
+ rdfs:label "Serpentine" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Alligator>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Crocodilian> ;
+ rdfs:comment "This class represents species with an alligator form" ;
+ rdfs:label "Alligator" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Crocodile>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Crocodilian> ;
+ rdfs:comment "This class represents species with a crocodile form" ;
+ rdfs:label "Crocodile" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Chameleon>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Lizard> ;
+ rdfs:comment "This class represents species with a chameleon form" ;
+ rdfs:label "Chameleon" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Snake>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Serpentine> ;
+ rdfs:comment "This class represents species with a snake form" ;
+ rdfs:label "Snake" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Pig>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Suinine> ;
+ rdfs:comment "This class represents species with a pig form" ;
+ rdfs:label "Pig" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Bear>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/zoo#Ursine> ;
+ rdfs:comment "This class represents species with a bear form" ;
+ rdfs:label "Bear" .
+
+##### Classes from Ontomedia Action #####
+<http://contextus.net/ontology/ontomedia/ext/events/action#Celestial>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Action> ;
+ rdfs:comment "This class represents celestial actions" ;
+ rdfs:label "Celestial" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/events/action#Environment>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Action> ;
+ rdfs:comment "This class represents environmental actions" ;
+ rdfs:label "Environment" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/events/action#Festivity>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Action>,
+<http://contextus.net/ontology/ontomedia/core/expression#Social> ;
+ rdfs:comment "This class represents festivity actions" ;
+ rdfs:label "Festivity" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/events/action#Ingestion>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Action> ;
+rdfs:comment "This class represents ingestion actions i.e. eating, drinking, photosynthesis etc. The subject of the action ingests the object." ;
+rdfs:label "Ingestion" .
+
+<http://contextus.net/ontology/ontomedia/ext/events/action#Sex>
+ a owl:Class ;
+ rdfs:subClassOf <http://contextus.net/ontology/ontomedia/core/expression#Action> ;
+ rdfs:comment "This class represents sexual actions" ;
+ rdfs:label "Sex" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/events/action#Violence>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Action> ;
+ rdfs:comment "This class represents violent actions" ;
+ rdfs:label "Violence" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/events/action#Body-Rise>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Celestial> ;
+ rdfs:comment "This class represents a celestial body rising over the horizon of another celestial body" ;
+ rdfs:label "Body Rise" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/events/action#Body-Set>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Celestial> ;
+ rdfs:comment "This class represents a celestial body lowering below the horizon of another celestial body" ;
+ rdfs:label "Body Set" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/events/action#Conjunction>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Celestial> ;
+ rdfs:comment "This class represents the conjunction of two or more celestial bodies" ;
+ rdfs:label "Conjunction" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/events/action#Air>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Environment> ;
+ rdfs:comment "This class represents an air/gas based environmental event" ;
+ rdfs:label "Environmental Event (Air)" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/events/action#Earth>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Environment> ;
+ rdfs:comment "This class represents an earth/ground based environmental event" ;
+ rdfs:label "Environmental Event (Earth)" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/events/action#Fire>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Environment> ;
+ rdfs:comment "This class represents an fire based environmental event" ;
+ rdfs:label "Environmental Event (Fire)" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/events/action#Water>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Environment> ;
+ rdfs:comment "This class represents an water based environmental event" ;
+ rdfs:label "Environmental Event (Water)" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/events/action#SexualViolence>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/events/action#Violence>,
+<http://contextus.net/ontology/ontomedia/ext/events/action#Sex> ;
+ rdfs:comment "This class represents actions that involve sexual violence" ;
+ rdfs:label "Sexual Violence" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/events/action#CorporalPunishment>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/events/action#Violence> ;
+ rdfs:comment "This class represents punishment inflicted on a being's body" ;
+ rdfs:label "Corporal Punishment" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/events/action#War>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/events/action#Violence> ;
+ rdfs:comment "This class represents actions involved in war" ;
+ rdfs:label "War" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/events/action#Battle>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/events/action#Violence> ;
+ rdfs:comment "This class represents a battle" ;
+ rdfs:label "Battle" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/events/action#Rebellion>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/events/action#Violence>,
+<http://contextus.net/ontology/ontomedia/ext/events/social#Political> ;
+ rdfs:comment "This class represents a rebellion" ;
+ rdfs:label "Rebellion" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/events/action#Assault>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/events/action#Battle> ;
+ rdfs:comment "This class represents an assault" ;
+ rdfs:label "Assault" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/events/action#Siege>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/events/action#Battle> ;
+ rdfs:comment "This class represents a siege" ;
+ rdfs:label "Siege" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/events/action#Skirmish>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/events/action#Battle> ;
+ rdfs:comment "This class represents a skirmish" ;
+ rdfs:label "Skirmish" .
+ 
+##### Ontomedia Gain #####
+<http://contextus.net/ontology/ontomedia/ext/events/gain#Creation>
+a owl:Class ;
+rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Gain> ;
+rdfs:comment "This class represents an act of creation" ;
+rdfs:label "Creation" .
+
+<http://contextus.net/ontology/ontomedia/ext/events/gain#GainAbstractItem>
+a owl:Class ;
+rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Gain> ;
+rdfs:comment "This class represents an abstract item being gained" ;
+rdfs:label "Gain Abstract Item" .
+
+<http://contextus.net/ontology/ontomedia/ext/events/gain#GainBond>
+a owl:Class ;
+rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/events/gain#AbstractItem> ;
+rdfs:comment "This class represents a bond being gained" ;
+rdfs:label "Gain Bond" .
+
+<http://contextus.net/ontology/ontomedia/ext/events/gain#GainTrait>
+a owl:Class ;
+rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/events/gain#AbstractItem> ;
+rdfs:comment "This class represents a trait being gained" ; 
+rdfs:label "Gain Trait" .
+
+<http://contextus.net/ontology/ontomedia/ext/events/gain#GainPhysicalItem>
+a owl:Class ;
+rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Gain> ;
+rdfs:comment "This class represents a physical item being gained" ;
+rdfs:label "Gain Physical Item" .
+
+##### Ontomedia Loss #####
+
+<http://contextus.net/ontology/ontomedia/ext/events/loss#Destruction>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Loss> ;
+ rdfs:comment "This class represents an act of destruction" ;
+ rdfs:label "Destruction" .
+ 
+##### Ontomedia Transformation #####
+
+<http://contextus.net/ontology/ontomedia/ext/events/trans#Transference>
+ a owl:Class ;
+ rdfs:subClassOf <http://contextus.net/ontology/ontomedia/core/expression#Transformation> ;
+ rdfs:comment "This class represents an entity being transfered" ;
+ rdfs:label "Transfer Entity" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/events/trans#Trait>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Transformation> ;
+ rdfs:comment "This class represents a trait being transformed" ;
+ rdfs:label "Transform Trait Value" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/events/trans#StateOfBeing>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Transformation> ;
+ rdfs:comment "This class represents a change in a the state of being trait" ;
+ rdfs:label "State of Being Change" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/events/trans#StateOfForm>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Transformation> ;
+ rdfs:comment "This class represents a change in a the state of form trait" ;
+ rdfs:label "State of Form Change" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/events/trans#StateOfConsciousness>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Transformation> ;
+ rdfs:comment "This class represents a change in a the state of consciousness trait" ;
+ rdfs:label "State of Consciousness Change" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/events/trans#Species>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Transformation> ;
+ rdfs:comment "This class represents a change in a the species trait" ;
+ rdfs:label "Species Change" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/events/trans#Gender>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Transformation> ;
+ rdfs:comment "This class represents a change in a the gender trait" ;
+ rdfs:label "Gender Change" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/events/trans#Division>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Transformation> ;
+ rdfs:comment "This class represents an entity dividing or otherwise transforming into multiple entities" ;
+ rdfs:label "Division/Seperation" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/events/trans#Merge>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Transformation> ;
+ rdfs:comment "This class represents multiple entities merging or otherwise transforming into a single entity" ;
+ rdfs:label "Merge" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/events/trans#Degradation>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/events/trans#Division> ;
+ rdfs:comment "This class represents an entity degrading" ;
+ rdfs:label "Degradation" .
+ 
+##### Ontomedia Travel #####
+<http://contextus.net/ontology/ontomedia/ext/events/travel#Travel>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/events/trans#Transference> ;
+ rdfs:comment "This class represents travel" ;
+ rdfs:label "Travel" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/events/travel#TerrainTravel>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/events/travel#Solid-Travel> ;
+ rdfs:comment "This class represents travel on a solid object" ;
+ rdfs:label "Terrain Travel" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/events/travel#SubterraneanTravel>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/events/travel#Solid-Travel> ;
+ rdfs:comment "This class represents travel underground" ;
+ rdfs:label "Subterranean Travel" .
+ 
+<http://contextus.net/ontology/ontomedia/ext/events/travel#Marine-Travel>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/events/travel#Liquid-Travel> ;
+ rdfs:comment "This class represents travel on a liquid" ;
+ rdfs:label "Marine Travel" .
+
+<http://contextus.net/ontology/ontomedia/ext/events/travel#Air-Travel>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/events/travel#Gas-Travel> ;
+ rdfs:comment "This class represents air travel" ;
+ rdfs:label "Air Travel" .
+
+########## ########## ########## ########## 
+########## Classes from SuLO ##############
+########## ########## ########## ########## 
+
+<http://www.semanticweb.org/terhi/ontologies/mORSuL/Temple>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/physitem#Building> ;
+ rdfs:comment "This class represents a temple as a specific and significant type of building" ;
+ rdfs:label "Temple" .
+
+<http://www.semanticweb.org/terhi/ontologies/mORSuL/Palace>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/physitem#Building> ;
+ rdfs:comment "This class represents a palace as a specific and significant type of building" ;
+ rdfs:label "Palace" .
+
+<http://www.semanticweb.org/terhi/ontologies/mORSuL/Oration>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Social> ;
+ rdfs:comment "This class represents social interactions which have something to do with verbal communication" ;
+ rdfs:label "Oration" .
+ 
+<http://www.semanticweb.org/terhi/ontologies/mORSuL/Monologue>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://www.semanticweb.org/terhi/ontologies/mORSuL/Oration> ;
+ rdfs:comment "This class represents verbal communication where one person speaks alone" ;
+ rdfs:label "Monologue" .
+ 
+<http://www.semanticweb.org/terhi/ontologies/mORSuL/Dialogue>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://www.semanticweb.org/terhi/ontologies/mORSuL/Oration> ;
+ rdfs:comment "This class represents verbal communication where two people speak together" ;
+ rdfs:label "Dialogue" .
+ 
+<http://www.semanticweb.org/terhi/ontologies/mORSuL/Polylogue>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://www.semanticweb.org/terhi/ontologies/mORSuL/Oration> ;
+ rdfs:comment "This class represents verbal communication where many people speak together" ;
+ rdfs:label "Polylogue" .
+ 
+<http://www.semanticweb.org/terhi/ontologies/mORSuL/Advice>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://www.semanticweb.org/terhi/ontologies/mORSuL/Oration> ;
+ rdfs:comment "This class represents verbal communication where one person gives advice to another" ;
+ rdfs:label "Advice" .
+ 
+<http://www.semanticweb.org/terhi/ontologies/mORSuL/Warning>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://www.semanticweb.org/terhi/ontologies/mORSuL/Oration> ;
+ rdfs:comment "This class represents verbal communication where one person warns another" ;
+ rdfs:label "Warning" .
+ 
+<http://www.semanticweb.org/terhi/ontologies/mORSuL/Lamentation>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://www.semanticweb.org/terhi/ontologies/mORSuL/Oration> ;
+ rdfs:comment "This class represents verbal communication where the person speaking is in mourning." ;
+ rdfs:label "Lamentation" .
+ 
+<http://www.semanticweb.org/terhi/ontologies/mORSuL/Curse>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://www.semanticweb.org/terhi/ontologies/mORSuL/Oration> ;
+ rdfs:comment "This class represents verbal communication someone utters a curse" ;
+ rdfs:label "Curse" .
+ 
+<http://www.semanticweb.org/terhi/ontologies/mORSuL/Prayer>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://www.semanticweb.org/terhi/ontologies/mORSuL/Oration> ;
+ rdfs:comment "This class represents verbal communication where someone is praying" ;
+ rdfs:label "Prayer" .
+ 
+<http://www.semanticweb.org/terhi/ontologies/mORSuL/Rejoicing>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://www.semanticweb.org/terhi/ontologies/mORSuL/Oration> ;
+ rdfs:comment "This class represents verbal communication where people are happy" ;
+ rdfs:label "Rejoice" .
+ 
+<http://www.semanticweb.org/terhi/ontologies/mORSuL/AssignmentOfDuty>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Social> ;
+ rdfs:comment "This class represents social interactions where someone assigns a duty to someone else, such as a god to another god, or to a person" ;
+ rdfs:label "AssignmentOfDuty" .
+ 
+<http://www.semanticweb.org/terhi/ontologies/mORSuL/AssignmentOfSpouse>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/expression#Social> ;
+ rdfs:comment "This class represents social interactions where someone assigns a spouseto someone else, such as a god to another god, or to aperson" ;
+ rdfs:label "AssignmentOfSpouse" .
+ 
+<http://www.semanticweb.org/terhi/ontologies/mORSuL/Canal>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/core/space#Aquatic> ;
+ rdfs:label "Canal" ;
+ rdfs:comment "This property is to be used to describe a man-made canal " .
+ 
+<http://www.semanticweb.org/terhi/ontologies/mORSuL/Divinity>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/being#Being>;
+ rdfs:comment "This class represents gods and goddesses" ;
+ rdfs:label "Divine" .
+ 
+<http://www.semanticweb.org/terhi/ontologies/mORSuL/SupernaturalBeing>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://contextus.net/ontology/ontomedia/ext/common/being#Being>;
+ rdfs:comment "This class represents supernatural beings such as demons" ;
+ rdfs:label "SupernaturalBeing" .
+ 
+<http://www.semanticweb.org/terhi/ontologies/mORSuL/Philological_annotation>
+ a owl:Class ;
+ rdfs:comment "This class is for capturing philological annotations such as scribal mistakes, determinatives, etc." ;
+ rdfs:label "Philological_annotation" .
+
+<http://www.semanticweb.org/terhi/ontologies/mORSuL/emesal>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://www.semanticweb.org/terhi/ontologies/mORSuL/Philological_annotation> ;
+ rdfs:comment "This class captures instances of eme.sal" ;
+ rdfs:label "emesal" .
+ 
+<http://www.semanticweb.org/terhi/ontologies/mORSuL/lemma>
+ a owl:Class ;
+ rdfs:subClassOf
+<http://www.semanticweb.org/terhi/ontologies/mORSuL/Philological_annotation> ;
+ rdfs:comment "This class captures lemma" ;
+ rdfs:label "lemma" .
